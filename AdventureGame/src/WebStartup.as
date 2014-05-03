@@ -1,7 +1,7 @@
 package
 {
 
-    import assets.embed.AdventureGameLoadingBG;
+    import com.whatanadventure.adventuregame.embedded.LoadingBG;
 
     import flash.display.DisplayObject;
     import flash.display.MovieClip;
@@ -37,7 +37,7 @@ package
 
         protected function addLoadingBG():void
         {
-            _bg = addChild(AdventureGameLoadingBG.getBitmap());
+            _bg = addChild(LoadingBG.getBitmap());
         }
 
         protected function preload():void

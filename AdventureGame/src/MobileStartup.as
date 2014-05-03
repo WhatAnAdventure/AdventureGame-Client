@@ -1,7 +1,7 @@
 package {
 
     import com.whatanadventure.adventuregame.config.GameConfig;
-    import assets.embed.AdventureGameSplashScreen;
+    import com.whatanadventure.adventuregame.embedded.SplashScreen;
 
     import flash.display.Sprite;
     import flash.display.StageAlign;
@@ -28,7 +28,7 @@ package {
 
         protected function addSplashScreen():void
         {
-            addChildAt(AdventureGameSplashScreen.getBitmap(), 0);
+            addChildAt(SplashScreen.getBitmap(), 0);
         }
 
         private function init():void

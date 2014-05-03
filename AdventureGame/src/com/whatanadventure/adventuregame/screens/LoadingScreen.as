@@ -3,7 +3,7 @@
  */
 package com.whatanadventure.adventuregame.screens
 {
-    import assets.embed.AdventureGameLoadingBG;
+    import com.whatanadventure.adventuregame.embedded.LoadingBG;
     import com.whatanadventure.adventuregame.managers.GameManager;
 
     import feathers.controls.ProgressBar;
@@ -43,7 +43,7 @@ package com.whatanadventure.adventuregame.screens
 
         protected function addLoadingBG():void
         {
-            _bg = addChildAt(new Image(Texture.fromBitmap(AdventureGameLoadingBG.getBitmap())), 0) as Image;
+            _bg = addChildAt(new Image(Texture.fromBitmap(LoadingBG.getBitmap())), 0) as Image;
         }
 
         protected function addProgressBar():void
