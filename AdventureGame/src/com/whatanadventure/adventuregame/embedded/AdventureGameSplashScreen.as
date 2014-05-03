@@ -8,7 +8,7 @@ package com.whatanadventure.adventuregame.embedded
 
     public class AdventureGameSplashScreen extends AbstractEmbeddedFlashAsset
     {
-        [Embed(source="../../../../../../../AdventureGame-ContentAssets/embed/AdventureGameSplash.jpg")]
+        [Embed(source="../../../../../../../AdventureGame-ContentAssets/assets/embed/AdventureGameSplash.jpg")]
         private static const WhatAnAdventureSplash:Class;
 
         public static function getBitmap(flashStage:Stage = null):Bitmap

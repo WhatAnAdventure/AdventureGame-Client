@@ -9,7 +9,7 @@ package com.whatanadventure.adventuregame.embedded
 
     public class AdventureGameLoadingBG extends AbstractEmbeddedStarlingAsset
     {
-        [Embed(source="../../../../../../../AdventureGame-ContentAssets/embed/AdventureGameLoadingBG.jpg")]
+        [Embed(source="../../../../../../../AdventureGame-ContentAssets/assets/embed/AdventureGameLoadingBG.jpg")]
         private static const AdventureGameLoadingBG:Class;
 
         public static function getBitmap(starlingStage:Stage = null):Bitmap
