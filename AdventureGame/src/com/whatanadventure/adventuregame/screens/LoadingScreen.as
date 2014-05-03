@@ -3,7 +3,7 @@
  */
 package com.whatanadventure.adventuregame.screens
 {
-    import com.whatanadventure.adventuregame.embedded.AdventureGameLoadingBG;
+    import assets.embed.AdventureGameLoadingBG;
     import com.whatanadventure.adventuregame.managers.GameManager;
 
     import feathers.controls.ProgressBar;

@@ -1,7 +1,7 @@
 package
 {
 
-    import com.whatanadventure.adventuregame.embedded.AdventureGameLoadingBG;
+    import assets.embed.AdventureGameLoadingBG;
 
     import flash.display.DisplayObject;
     import flash.display.MovieClip;

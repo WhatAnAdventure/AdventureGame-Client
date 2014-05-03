@@ -1,7 +1,7 @@
 package {
 
     import com.whatanadventure.adventuregame.config.GameConfig;
-    import com.whatanadventure.adventuregame.embedded.AdventureGameSplashScreen;
+    import assets.embed.AdventureGameSplashScreen;
 
     import flash.display.Sprite;
     import flash.display.StageAlign;
