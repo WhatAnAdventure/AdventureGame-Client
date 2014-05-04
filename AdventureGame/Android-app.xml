@@ -151,12 +151,12 @@
         <image1024x1024></image1024x1024>
     </icon>-->
     <icon>
-        <image36x36>android/drawable-ldpi/ic_launcher.png</image36x36>
-        <image48x48>android/drawable-mdpi/ic_launcher.png</image48x48>
-        <image72x72>android/drawable-hdpi/ic_launcher.png</image72x72>
-        <image96x96>android/drawable-xhdpi/ic_launcher.png</image96x96>
-        <image144x144>android/drawable-xxhdpi/ic_launcher.png</image144x144>
-        <image512x512>android/playstore-icon.png</image512x512>
+        <image36x36>assets/appIcons/android/drawable-ldpi/ic_launcher.png</image36x36>
+        <image48x48>assets/appIcons/android/drawable-mdpi/ic_launcher.png</image48x48>
+        <image72x72>assets/appIcons/android/drawable-hdpi/ic_launcher.png</image72x72>
+        <image96x96>assets/appIcons/android/drawable-xhdpi/ic_launcher.png</image96x96>
+        <image144x144>assets/appIcons/android/drawable-xxhdpi/ic_launcher.png</image144x144>
+        <image512x512>assets/appIcons/android/playstore-icon.png</image512x512>
     </icon>
 
     <!-- Whether the application handles the update when a user double-clicks an update version of the AIR file (true),
