@@ -6,6 +6,8 @@ package com.whatanadventure.adventuregame.screens
     import com.whatanadventure.adventuregame.embedded.LoadingBG;
     import com.whatanadventure.adventuregame.managers.GameManager;
 
+    import feathers.controls.Button;
+
     import feathers.controls.ProgressBar;
     import feathers.controls.Screen;
     import feathers.layout.AnchorLayout;
@@ -16,18 +18,22 @@ package com.whatanadventure.adventuregame.screens
     import starling.core.Starling;
     import starling.display.Image;
     import starling.events.Event;
+    import starling.events.Touch;
+    import starling.events.TouchEvent;
     import starling.textures.Texture;
 
     public class LoadingScreen extends Screen
     {
+        protected var _bg:Image;
+        protected var _progressBar:ProgressBar;
+        protected var _playButton:Button;
+
         public function LoadingScreen()
         {
             super();
 
             layout = new AnchorLayout();
         }
-        protected var _bg:Image;
-        protected var _progressBar:ProgressBar;
 
         protected var _gameManager:GameManager;
 
@@ -55,7 +61,20 @@ package com.whatanadventure.adventuregame.screens
         private function onComplete(event:Event):void
         {
             trace("PROGRESS BAR COMPLETE!");
-            dispatchEvent(event);
+            _progressBar.removeFromParent(true);
+            _playButton = new Button();
+            _playButton.label = "Play";
+            var layoutData:AnchorLayoutData = new AnchorLayoutData();
+            layoutData.horizontalCenter = 0;
+            layoutData.verticalCenter = Starling.current.stage.stageHeight / 3;
+            _playButton.layoutData = layoutData;
+            _playButton.addEventListener(Event.TRIGGERED, onPlay);
+            addChild(_playButton);
+        }
+
+        private function onPlay(event:Event):void
+        {
+            dispatchEvent(new Event(Event.COMPLETE));
         }
 
         protected function addLoadingBG():void
