@@ -4,6 +4,7 @@
 package {
     import com.whatanadventure.adventuregame.managers.GameManager;
     import com.whatanadventure.adventuregame.screens.LoadingScreen;
+    import com.whatanadventure.adventuregame.screens.MainMenu;
     import com.whatanadventure.adventuregame.themes.AdventureGameTheme;
 
     import feathers.controls.ScreenNavigator;
@@ -38,8 +39,8 @@ package {
             _navigator = new ScreenNavigator();
             addChild(_navigator);
 
-//            _navigator.addScreen(MAIN_MENU, new ScreenNavigatorItem(MainMenu, null, {"gameManager":_gameManager}));
             _navigator.addScreen(LOADING_SCREEN, new ScreenNavigatorItem(LoadingScreen, {"complete":MAIN_MENU}, {"gameManager":_gameManager}));
+            _navigator.addScreen(MAIN_MENU, new ScreenNavigatorItem(MainMenu, null, {"gameManager":_gameManager}));
 
             _navigator.showScreen(LOADING_SCREEN);
 

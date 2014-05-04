@@ -11,8 +11,11 @@ package com.whatanadventure.adventuregame.screens
     import feathers.layout.AnchorLayout;
     import feathers.layout.AnchorLayoutData;
 
+    import flash.events.ProgressEvent;
+
     import starling.core.Starling;
     import starling.display.Image;
+    import starling.events.Event;
     import starling.textures.Texture;
 
     public class LoadingScreen extends Screen
@@ -39,6 +42,20 @@ package com.whatanadventure.adventuregame.screens
         {
             addLoadingBG();
             addProgressBar();
+            _gameManager.resourceManager.addEventListener(ProgressEvent.PROGRESS, onProgress);
+            _gameManager.resourceManager.addEventListener(Event.COMPLETE, onComplete);
+        }
+
+        private function onProgress(event:Event):void
+        {
+            _progressBar.value = Math.floor((event.data.bytesLoaded / event.data.bytesTotal) * 100);
+            trace("Progress Bar: " + _progressBar.value + "%");
+        }
+
+        private function onComplete(event:Event):void
+        {
+            trace("PROGRESS BAR COMPLETE!");
+            dispatchEvent(event);
         }
 
         protected function addLoadingBG():void
@@ -51,7 +68,7 @@ package com.whatanadventure.adventuregame.screens
             _progressBar = new ProgressBar();
             _progressBar.minimum = 0;
             _progressBar.maximum = 100;
-            _progressBar.value = 50;
+            _progressBar.value = 0;
 //            _progressBar.width = Starling.current.stage.stageWidth * (2/3);
 
             var layoutData:AnchorLayoutData = new AnchorLayoutData();

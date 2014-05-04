@@ -16,6 +16,11 @@ package com.whatanadventure.adventuregame.managers
 
             _gameManager = gameManager;
 
+            addDataFetchers();
+        }
+
+        protected function addDataFetchers():void
+        {
             addDataFetcher(new ProjectFileDataFetcher(_gameManager, "/data/PackagedAssetsManifest.json"));
         }
     }
