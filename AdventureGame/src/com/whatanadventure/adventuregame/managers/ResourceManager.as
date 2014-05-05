@@ -21,6 +21,7 @@ package com.whatanadventure.adventuregame.managers
 
         protected function addDataFetchers():void
         {
+            //TODO: depending on platform, have a different fetcher
             addDataFetcher(new ProjectFileDataFetcher(_gameManager, "/data/PackagedAssetsManifest.json"));
         }
     }

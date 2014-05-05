@@ -3,9 +3,12 @@
  */
 package com.whatanadventure.adventuregame.config
 {
+    import flash.desktop.NativeApplication;
     import flash.display.Stage;
     import flash.geom.Point;
     import flash.system.Capabilities;
+
+    import starling.core.Starling;
 
     public class GameConfig
     {
@@ -13,10 +16,25 @@ package com.whatanadventure.adventuregame.config
         public static const SWF_WIDTH:int = 640;
         public static const SWF_HEIGHT:int = 960;
         public static var PLATFORMS:Object = {
-            "iOS": "iOS",
-            "Android": "Android",
+//            "iOS": "iOS",
+//            "Android": "Android",
+            "Mobile": "Mobile",
             "Web": "Web",
+            "Emulator": "Emulator",
             "Desktop": "Desktop"
+        };
+        public static const BUILD_ENVIRONMENTS:Object = {
+            "LIVE":"LIVE",
+            "DEV":"DEV"
+        };
+        public static function get environment():String
+        {
+            var result:String;
+
+            if (BUILD_ENVIRONMENTS.hasOwnProperty(DEFINE::BUILD))
+                result = BUILD_ENVIRONMENTS[DEFINE::BUILD];
+
+            return result;
         };
         public static var flashStage:Stage;
         public static var swfScale:Number;
@@ -25,7 +43,7 @@ package com.whatanadventure.adventuregame.config
         {
             var result:int;
 
-            result = (isMobile()) ? flashStage.fullScreenWidth : flashStage.stageWidth;
+            result = (getPlatform() == PLATFORMS.Mobile) ? flashStage.fullScreenWidth : flashStage.stageWidth;
 
             return result;
         }
@@ -34,27 +52,48 @@ package com.whatanadventure.adventuregame.config
         {
             var result:int;
 
-            result = (isMobile()) ? flashStage.fullScreenHeight : flashStage.stageHeight;
+            result = (getPlatform() == PLATFORMS.Mobile) ? flashStage.fullScreenHeight : flashStage.stageHeight;
 
             return result;
         }
 
         public static function getPlatform():String
         {
-            if (PLATFORMS[Capabilities.manufacturer])
-                return Capabilities.manufacturer;
+            var result:String;
+
+            if (Capabilities.manufacturer == "iOS" || Capabilities.manufacturer == "Android")
+                result = PLATFORMS.Mobile;
             else if (Capabilities.manufacturer.indexOf("Adobe") != -1)
-                return PLATFORMS.Desktop;
+            {
+                if (getAppId().indexOf(PLATFORMS.Desktop) != -1)
+                    result = PLATFORMS.Desktop;
+                else
+                    result = PLATFORMS.Emulator;
+            }
             else
-                return PLATFORMS.Web;
+                result = PLATFORMS.Web;
+
+            trace("manufacturer: " + Capabilities.manufacturer);
+            return result;
         }
 
-        public static function isMobile():Boolean
+        public static function getAppId():String
         {
-            var platform:String = getPlatform();
-            return (platform == PLATFORMS.Android || platform == PLATFORMS.iOS);
-
+            var appDescriptor:XML = NativeApplication.nativeApplication.applicationDescriptor;
+            var ns:Namespace = appDescriptor.namespace();
+            var appId:String = appDescriptor.ns::id;
+            var appVersion:String = appDescriptor.ns::version;
+            trace("appId:", appId);
+            trace("version:", appVersion);
+            return appId;
         }
+
+//        public static function isMobile():Boolean
+//        {
+//            var platform:String = getPlatform();
+//            return (platform == PLATFORMS.Android || platform == PLATFORMS.iOS);
+//
+//        }
 
         public static function getNewStarlingStageDimensions(stageWidth:int, stageHeight:int):Point
         {
@@ -86,6 +125,15 @@ package com.whatanadventure.adventuregame.config
             }
 
             return new Point(stageWidth, stageHeight);
+        }
+
+        public static var SCREEN_ORIENTATIONS:Object = {
+            "landscape":"landscape",
+            "portrait":"portrait"
+        };
+        public static function get screenOrientation():String
+        {
+            return (Starling.current.stage.stageHeight < Starling.current.stage.stageWidth) ? SCREEN_ORIENTATIONS.landscape : SCREEN_ORIENTATIONS.portrait;
         }
 
         public function GameConfig()

@@ -1,13 +1,14 @@
 /**
  * Created by Chelsea on 5/1/2014.
  */
-package com.whatanadventure.adventuregame.screens
+package com.whatanadventure.adventuregame.mvc.views
 {
+    import com.whatanadventure.adventuregame.config.GameConfig;
     import com.whatanadventure.adventuregame.embedded.LoadingBG;
     import com.whatanadventure.adventuregame.managers.GameManager;
+    import com.whatanadventure.framework.mvc.IMVCView;
 
     import feathers.controls.Button;
-
     import feathers.controls.ProgressBar;
     import feathers.controls.Screen;
     import feathers.layout.AnchorLayout;
@@ -18,11 +19,9 @@ package com.whatanadventure.adventuregame.screens
     import starling.core.Starling;
     import starling.display.Image;
     import starling.events.Event;
-    import starling.events.Touch;
-    import starling.events.TouchEvent;
     import starling.textures.Texture;
 
-    public class LoadingScreen extends Screen
+    public class LoadingScreen extends Screen implements IMVCView
     {
         protected var _bg:Image;
         protected var _progressBar:ProgressBar;
@@ -36,6 +35,7 @@ package com.whatanadventure.adventuregame.screens
         }
 
         protected var _gameManager:GameManager;
+        private var _isComplete:Boolean;
 
         public function set gameManager(value:GameManager):void
         {
@@ -47,7 +47,10 @@ package com.whatanadventure.adventuregame.screens
         protected function initLoadingScreen():void
         {
             addLoadingBG();
-            addProgressBar();
+            if (!_isComplete)
+                addProgressBar();
+            else
+                addPlayButton();
             _gameManager.resourceManager.addEventListener(ProgressEvent.PROGRESS, onProgress);
             _gameManager.resourceManager.addEventListener(Event.COMPLETE, onComplete);
         }
@@ -62,11 +65,19 @@ package com.whatanadventure.adventuregame.screens
         {
             trace("PROGRESS BAR COMPLETE!");
             _progressBar.removeFromParent(true);
+            _isComplete = true;
+            addPlayButton();
+        }
+
+        private function addPlayButton():void
+        {
             _playButton = new Button();
             _playButton.label = "Play";
             var layoutData:AnchorLayoutData = new AnchorLayoutData();
             layoutData.horizontalCenter = 0;
             layoutData.verticalCenter = Starling.current.stage.stageHeight / 3;
+            if (GameConfig.screenOrientation == GameConfig.SCREEN_ORIENTATIONS.landscape)
+                layoutData.verticalCenter *= -1;
             _playButton.layoutData = layoutData;
             _playButton.addEventListener(Event.TRIGGERED, onPlay);
             addChild(_playButton);
@@ -93,8 +104,16 @@ package com.whatanadventure.adventuregame.screens
             var layoutData:AnchorLayoutData = new AnchorLayoutData();
             layoutData.horizontalCenter = 0;
             layoutData.verticalCenter = Starling.current.stage.stageHeight / 3;
+            if (GameConfig.screenOrientation == GameConfig.SCREEN_ORIENTATIONS.landscape)
+                layoutData.verticalCenter *= -1;
             _progressBar.layoutData = layoutData;
             addChild(_progressBar);
+        }
+
+        public function reinitialize()
+        {
+            removeChildren(0, -1, true);
+            initLoadingScreen();
         }
     }
 }

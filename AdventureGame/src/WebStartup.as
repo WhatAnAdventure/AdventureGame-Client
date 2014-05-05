@@ -1,7 +1,7 @@
 package
 {
-
-    import com.whatanadventure.adventuregame.embedded.LoadingBG;
+    import com.whatanadventure.adventuregame.IStartup;
+    import com.whatanadventure.adventuregame.embedded.WebLoadingBG;
 
     import flash.display.DisplayObject;
     import flash.display.MovieClip;
@@ -13,7 +13,7 @@ package
     import flash.utils.getDefinitionByName;
 
     [SWF(width="960", height="640", frameRate="60", backgroundColor="#2f2f2f")]
-    public class WebStartup extends MovieClip
+    public class WebStartup extends MovieClip implements IStartup
     {
         public function WebStartup()
         {
@@ -37,7 +37,7 @@ package
 
         protected function addLoadingBG():void
         {
-            _bg = addChild(LoadingBG.getBitmap());
+            _bg = addChild(WebLoadingBG.getBitmap());
         }
 
         protected function preload():void
@@ -54,12 +54,11 @@ package
             stage.align = StageAlign.TOP_LEFT;
 
             const StarlingType:Class = getDefinitionByName("starling.core.Starling") as Class;
-            const MainType:Class = getDefinitionByName("WebGame") as Class;
+            const MainType:Class = getDefinitionByName("com.whatanadventure.adventuregame.WebGame") as Class;
+//            const StarlingType:Class = Starling
+//            const MainType:Class = WebGame;
             new StarlingType(MainType, stage)//, viewport, null);
             MainType.setStartup(this);
-
-            //            stage.addEventListener(Event.RESIZE, stage_resizeHandler, false, int.MAX_VALUE, true);
-            //            stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
         }
 
         protected function onPreloaderProgress(event:ProgressEvent):void

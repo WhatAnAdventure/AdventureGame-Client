@@ -3,7 +3,10 @@
  */
 package
 {
+    import com.whatanadventure.adventuregame.IStartup;
     import com.whatanadventure.adventuregame.config.GameConfig;
+
+    import flash.display.DisplayObject;
 
     import flash.events.Event;
     import flash.geom.Point;
@@ -14,9 +17,9 @@ package
 
     public class WebGame extends MobileGame
     {
-        private static var _startup:WebStartupFantasyGame;
+        private static var _startup:IStartup;
 
-        public static function setStartup(startup:WebStartupFantasyGame):void
+        public static function setStartup(startup:IStartup):void
         {
             _startup = startup;
         }
@@ -35,7 +38,7 @@ package
 
         private function init():void
         {
-            GameConfig.flashStage = _startup.stage;
+            GameConfig.flashStage = (_startup as DisplayObject).stage;
 
             Starling.current.enableErrorChecking = false;
 

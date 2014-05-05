@@ -1,7 +1,7 @@
 /**
  * Created by Chelsea on 4/27/2014.
  */
-package com.whatanadventure.adventuregame.screens
+package com.whatanadventure.adventuregame.mvc.views
 {
     import com.whatanadventure.adventuregame.managers.GameManager;
 
