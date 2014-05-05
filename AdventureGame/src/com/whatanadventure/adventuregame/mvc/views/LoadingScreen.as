@@ -110,7 +110,7 @@ package com.whatanadventure.adventuregame.mvc.views
             addChild(_progressBar);
         }
 
-        public function reinitialize()
+        public function reinitialize():void
         {
             removeChildren(0, -1, true);
             initLoadingScreen();
