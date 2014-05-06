@@ -3,6 +3,8 @@
  */
 package com.whatanadventure.adventuregame.managers
 {
+    import com.whatanadventure.adventuregame.config.GameConfig;
+    import com.whatanadventure.framework.data.fetchers.LocalDataFetcher;
     import com.whatanadventure.framework.data.fetchers.ProjectFileDataFetcher;
     import com.whatanadventure.framework.managers.BaseResourceManager;
 
@@ -21,8 +23,16 @@ package com.whatanadventure.adventuregame.managers
 
         protected function addDataFetchers():void
         {
-            //TODO: depending on platform, have a different fetcher
-            addDataFetcher(new ProjectFileDataFetcher(_gameManager, "/data/PackagedAssetsManifest.json"));
+            switch (GameConfig.getPlatform())
+            {
+                case GameConfig.PLATFORMS.Mobile:
+                case GameConfig.PLATFORMS.Emulator:
+                    addDataFetcher(new ProjectFileDataFetcher(_gameManager, "/data/PackagedAssetsManifest.json"));
+                    break;
+                case GameConfig.PLATFORMS.Desktop:
+                    addDataFetcher(new LocalDataFetcher(_gameManager));
+                    break;
+            }
         }
     }
 }

@@ -4,6 +4,8 @@
 package com.whatanadventure.adventuregame.config
 {
     import flash.desktop.NativeApplication;
+    import flash.desktop.NativeProcess;
+    import flash.desktop.NativeProcessStartupInfo;
     import flash.display.Stage;
     import flash.geom.Point;
     import flash.system.Capabilities;
@@ -27,6 +29,7 @@ package com.whatanadventure.adventuregame.config
             "LIVE":"LIVE",
             "DEV":"DEV"
         };
+        public static const SHARED_OBJECT_NAME:String = "com.whatanadventure.adventuregame";
         public static function get environment():String
         {
             var result:String;
@@ -134,6 +137,12 @@ package com.whatanadventure.adventuregame.config
         public static function get screenOrientation():String
         {
             return (Starling.current.stage.stageHeight < Starling.current.stage.stageWidth) ? SCREEN_ORIENTATIONS.landscape : SCREEN_ORIENTATIONS.portrait;
+        }
+
+        public static const HD_TEXTURE_THRESHOLD:int = 1280;
+        public static function useHDTextures():Boolean
+        {
+            return (Math.max(stageWidth, stageHeight) > HD_TEXTURE_THRESHOLD)
         }
 
         public function GameConfig()
