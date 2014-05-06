@@ -27,7 +27,7 @@ package com.whatanadventure.adventuregame.managers
             {
                 case GameConfig.PLATFORMS.Mobile:
                 case GameConfig.PLATFORMS.Emulator:
-                    addDataFetcher(new ProjectFileDataFetcher(_gameManager, "/data/PackagedAssetsManifest.json"));
+                    addDataFetcher(new ProjectFileDataFetcher(_gameManager, "/data/ContentDataManifest.json"));
                     break;
                 case GameConfig.PLATFORMS.Desktop:
                     addDataFetcher(new LocalDataFetcher(_gameManager));

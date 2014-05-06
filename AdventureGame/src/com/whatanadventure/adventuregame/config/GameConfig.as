@@ -4,8 +4,6 @@
 package com.whatanadventure.adventuregame.config
 {
     import flash.desktop.NativeApplication;
-    import flash.desktop.NativeProcess;
-    import flash.desktop.NativeProcessStartupInfo;
     import flash.display.Stage;
     import flash.geom.Point;
     import flash.system.Capabilities;
@@ -82,13 +80,20 @@ package com.whatanadventure.adventuregame.config
 
         public static function getAppId():String
         {
-            var appDescriptor:XML = NativeApplication.nativeApplication.applicationDescriptor;
-            var ns:Namespace = appDescriptor.namespace();
-            var appId:String = appDescriptor.ns::id;
-            var appVersion:String = appDescriptor.ns::version;
-            trace("appId:", appId);
-            trace("version:", appVersion);
-            return appId;
+            var result:String;
+
+            if (NativeApplication.nativeApplication)
+            {
+                var appDescriptor:XML = NativeApplication.nativeApplication.applicationDescriptor;
+                var ns:Namespace = appDescriptor.namespace();
+                var appId:String = appDescriptor.ns::id;
+                var appVersion:String = appDescriptor.ns::version;
+                trace("appId:", appId);
+                trace("version:", appVersion);
+                result = appId;
+            }
+
+            return result;
         }
 
 //        public static function isMobile():Boolean

@@ -7,10 +7,12 @@ package com.whatanadventure.adventuregame.mvc.views
     import com.whatanadventure.adventuregame.embedded.LoadingBG;
     import com.whatanadventure.adventuregame.managers.GameManager;
     import com.whatanadventure.framework.mvc.IMVCView;
+    import com.whatanadventure.framework.mvc.MVCView;
 
     import feathers.controls.Button;
     import feathers.controls.ProgressBar;
     import feathers.controls.Screen;
+    import feathers.core.FeathersControl;
     import feathers.layout.AnchorLayout;
     import feathers.layout.AnchorLayoutData;
 
@@ -46,13 +48,14 @@ package com.whatanadventure.adventuregame.mvc.views
 
         protected function initLoadingScreen():void
         {
-            addLoadingBG();
+//            addLoadingBG();
             if (!_isComplete)
                 addProgressBar();
             else
                 addPlayButton();
             _gameManager.resourceManager.addEventListener(ProgressEvent.PROGRESS, onProgress);
             _gameManager.resourceManager.addEventListener(Event.COMPLETE, onComplete);
+            updateLayout();
         }
 
         private function onProgress(event:Event):void
@@ -67,6 +70,7 @@ package com.whatanadventure.adventuregame.mvc.views
             _progressBar.removeFromParent(true);
             _isComplete = true;
             addPlayButton();
+            updateLayout();
         }
 
         private function addPlayButton():void
@@ -74,10 +78,10 @@ package com.whatanadventure.adventuregame.mvc.views
             _playButton = new Button();
             _playButton.label = "Play";
             var layoutData:AnchorLayoutData = new AnchorLayoutData();
-            layoutData.horizontalCenter = 0;
-            layoutData.verticalCenter = Starling.current.stage.stageHeight / 3;
-            if (GameConfig.screenOrientation == GameConfig.SCREEN_ORIENTATIONS.landscape)
-                layoutData.verticalCenter *= -1;
+//            layoutData.horizontalCenter = 0;
+//            layoutData.verticalCenter = Starling.current.stage.stageHeight / 3;
+//            if (GameConfig.screenOrientation == GameConfig.SCREEN_ORIENTATIONS.landscape)
+//                layoutData.verticalCenter *= -1;
             _playButton.layoutData = layoutData;
             _playButton.addEventListener(Event.TRIGGERED, onPlay);
             addChild(_playButton);
@@ -102,18 +106,50 @@ package com.whatanadventure.adventuregame.mvc.views
 //            _progressBar.width = Starling.current.stage.stageWidth * (2/3);
 
             var layoutData:AnchorLayoutData = new AnchorLayoutData();
-            layoutData.horizontalCenter = 0;
-            layoutData.verticalCenter = Starling.current.stage.stageHeight / 3;
-            if (GameConfig.screenOrientation == GameConfig.SCREEN_ORIENTATIONS.landscape)
-                layoutData.verticalCenter *= -1;
+//            layoutData.horizontalCenter = 0;
+//            layoutData.verticalCenter = Starling.current.stage.stageHeight / 3;
+//            if (GameConfig.screenOrientation == GameConfig.SCREEN_ORIENTATIONS.landscape)
+//                layoutData.verticalCenter *= -1;
             _progressBar.layoutData = layoutData;
             addChild(_progressBar);
         }
 
+        override protected function draw():void
+        {
+            super.draw();
+
+            if (isInvalid(MVCView.INVALIDATION_FLAG_ROTATE))
+            {
+                updateLayout();
+            }
+        }
+
         public function reinitialize():void
         {
-            removeChildren(0, -1, true);
-            initLoadingScreen();
+            invalidate(MVCView.INVALIDATION_FLAG_ROTATE);
+        }
+
+        public function updateLayout():void
+        {
+            if (_bg && getChildIndex(_bg) != -1)
+                _bg.removeFromParent(true);
+            addLoadingBG();
+
+            if (_progressBar && getChildIndex(_progressBar) != -1)
+            {
+                (_progressBar.layoutData as AnchorLayoutData).horizontalCenter = 0;
+                (_progressBar.layoutData as AnchorLayoutData).verticalCenter = Starling.current.stage.stageHeight / 3;
+                if (GameConfig.screenOrientation == GameConfig.SCREEN_ORIENTATIONS.landscape)
+                    (_progressBar.layoutData as AnchorLayoutData).verticalCenter *= -1;
+            }
+
+            if (_playButton && getChildIndex(_playButton) != -1)
+            {
+                (_playButton.layoutData as AnchorLayoutData).horizontalCenter = 0;
+                (_playButton.layoutData as AnchorLayoutData).verticalCenter = Starling.current.stage.stageHeight / 3;
+                if (GameConfig.screenOrientation == GameConfig.SCREEN_ORIENTATIONS.landscape)
+                    (_playButton.layoutData as AnchorLayoutData).verticalCenter *= -1;
+            }
         }
     }
 }
