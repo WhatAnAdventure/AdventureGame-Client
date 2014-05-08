@@ -10,6 +10,7 @@ package com.whatanadventure.adventuregame.mvc.models
     public class GameDataModel extends MVCModel implements IMVCModel
     {
         private var _defaultTheme:String;
+        private var _firstScreen:String;
 
         public function GameDataModel(gameManager:BaseGameManager, modelName:String)
         {
@@ -33,6 +34,16 @@ package com.whatanadventure.adventuregame.mvc.models
         public function set defaultTheme(value:String):void
         {
             _defaultTheme = value;
+        }
+
+        public function get firstScreen():String
+        {
+            return _firstScreen;
+        }
+
+        public function set firstScreen(value:String):void
+        {
+            _firstScreen = value;
         }
     }
 }

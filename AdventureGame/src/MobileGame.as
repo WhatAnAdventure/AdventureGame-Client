@@ -4,12 +4,8 @@
 package {
     import com.whatanadventure.adventuregame.config.GameConfig;
     import com.whatanadventure.adventuregame.managers.GameManager;
-    import com.whatanadventure.adventuregame.mvc.views.LoadingScreen;
-    import com.whatanadventure.adventuregame.mvc.views.MainMenu;
     import com.whatanadventure.framework.mvc.IMVCView;
 
-    import feathers.controls.ScreenNavigator;
-    import feathers.controls.ScreenNavigatorItem;
     import feathers.core.DisplayListWatcher;
     import feathers.motion.transitions.ScreenSlidingStackTransitionManager;
 
@@ -26,17 +22,12 @@ package {
 
     public class MobileGame extends Sprite
     {
-        private static const MAIN_MENU:String = "mainMenu";
-        private static const LOADING_SCREEN:String = "loadingScreen";
-
         public function MobileGame()
         {
             super();
         }
 
         private var _theme:DisplayListWatcher;
-        private var _navigator:ScreenNavigator;
-        private var _transitionManager:ScreenSlidingStackTransitionManager;
         private var _gameManager:GameManager;
 
         public function start():void
@@ -45,19 +36,11 @@ package {
 
             _gameManager = new GameManager();
             _gameManager.init();
-
             _gameManager.resourceManager.addEventListener(Event.COMPLETE, onResourceManagerComplete);
 
-            _navigator = new ScreenNavigator();
-            addChild(_navigator);
+            addChild(_gameManager.navigator);
 
-            _navigator.addScreen(LOADING_SCREEN, new ScreenNavigatorItem(LoadingScreen, {"complete":MAIN_MENU}, {"gameManager":_gameManager}));
-            _navigator.addScreen(MAIN_MENU, new ScreenNavigatorItem(MainMenu, null, {"gameManager":_gameManager}));
-
-            _navigator.showScreen(LOADING_SCREEN);
-
-            _transitionManager = new ScreenSlidingStackTransitionManager(_navigator);
-            _transitionManager.duration = 0.4;
+            _gameManager.resourceManager.fetchData();
         }
 
         private function onResourceManagerComplete(event:Event):void
