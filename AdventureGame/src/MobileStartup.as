@@ -18,7 +18,6 @@ package {
     [SWF(width="640", height="960", frameRate="60", backgroundColor="#2f2f2f")]
     public class MobileStartup extends Sprite
     {
-        //Erik changed something!
         public function MobileStartup()
         {
             addEventListener(flash.events.Event.ENTER_FRAME, onEnterFrame);

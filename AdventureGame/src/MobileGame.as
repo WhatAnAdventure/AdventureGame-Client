@@ -4,26 +4,25 @@
 package {
     import com.whatanadventure.adventuregame.config.GameConfig;
     import com.whatanadventure.adventuregame.managers.GameManager;
-    import com.whatanadventure.framework.mvc.IMVCView;
     import com.whatanadventure.adventuregame.mvc.views.LoadingScreen;
     import com.whatanadventure.adventuregame.mvc.views.MainMenu;
-    import com.whatanadventure.adventuregame.themes.AdventureGameTheme;
+    import com.whatanadventure.framework.mvc.IMVCView;
 
     import feathers.controls.ScreenNavigator;
     import feathers.controls.ScreenNavigatorItem;
-    import feathers.core.FeathersControl;
+    import feathers.core.DisplayListWatcher;
     import feathers.motion.transitions.ScreenSlidingStackTransitionManager;
-    import feathers.themes.MetalWorksMobileTheme;
 
     import flash.geom.Rectangle;
 
     import starling.core.Starling;
     import starling.display.DisplayObject;
     import starling.display.DisplayObjectContainer;
-    import starling.display.DisplayObjectContainer;
     import starling.display.Sprite;
     import starling.events.Event;
     import starling.events.ResizeEvent;
+
+    import themes.MetalWorksMobileTheme.source.feathers.themes.MetalWorksMobileTheme;
 
     public class MobileGame extends Sprite
     {
@@ -35,7 +34,7 @@ package {
             super();
         }
 
-        private var _theme:MetalWorksMobileTheme;
+        private var _theme:DisplayListWatcher;
         private var _navigator:ScreenNavigator;
         private var _transitionManager:ScreenSlidingStackTransitionManager;
         private var _gameManager:GameManager;
@@ -139,7 +138,7 @@ package {
 
         protected function setTheme():void
         {
-            _theme = new AdventureGameTheme(stage);
+            _theme = new MetalWorksMobileTheme(stage);
         }
     }
 }
