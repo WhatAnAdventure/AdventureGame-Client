@@ -3,11 +3,12 @@
  */
 package com.whatanadventure.adventuregame.mvc.models
 {
+    import com.whatanadventure.framework.data.IJsonObject;
     import com.whatanadventure.framework.managers.BaseGameManager;
     import com.whatanadventure.framework.mvc.IMVCModel;
     import com.whatanadventure.framework.mvc.MVCModel;
 
-    public class GameDataModel extends MVCModel implements IMVCModel
+    public class GameDataModel extends MVCModel implements IMVCModel, IJsonObject
     {
         private var _defaultTheme:String;
         private var _firstScreen:String;
@@ -22,7 +23,7 @@ package com.whatanadventure.adventuregame.mvc.models
             return null;
         }
 
-        public function fromJSON(data:Object):void
+        public function fromJSON(jsonData:Object):void
         {
         }
 

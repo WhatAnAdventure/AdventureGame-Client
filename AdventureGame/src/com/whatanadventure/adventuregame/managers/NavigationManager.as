@@ -3,9 +3,11 @@
  */
 package com.whatanadventure.adventuregame.managers
 {
+    import com.whatanadventure.framework.mvc.layout.MVCViewLayout;
     import com.whatanadventure.adventuregame.mvc.models.GameDataModel;
+    import com.whatanadventure.framework.mvc.models.MVCViewLayouts;
     import com.whatanadventure.adventuregame.mvc.views.LoadingScreen;
-    import com.whatanadventure.adventuregame.mvc.views.MainMenu;
+    import com.whatanadventure.adventuregame.mvc.views.ViewClassLookUp;
 
     import feathers.controls.ScreenNavigator;
     import feathers.controls.ScreenNavigatorItem;
@@ -18,13 +20,12 @@ package com.whatanadventure.adventuregame.managers
     {
         private static const LOADING_SCREEN:String = "loadingScreen";
         private static const LOADING_SCREEN_CLASS:Class = LoadingScreen;
-        private static const MAIN_MENU:String = "mainMenu";
-        private static const MAIN_MENU_CLASS:Class = MainMenu;
 
         private var _gameManager:GameManager;
         private var _screenNavigator:ScreenNavigator;
         private var _transitionManager:ScreenSlidingStackTransitionManager;
         private var _gameDataModel:GameDataModel;
+        private var _mvcViewLayouts:MVCViewLayouts;
 
         public function NavigationManager(gameManager:GameManager, screenNavigator:ScreenNavigator)
         {
@@ -43,9 +44,21 @@ package com.whatanadventure.adventuregame.managers
         private function onLoadingScreenComplete(event:Event):void
         {
             _gameDataModel = _gameManager.modelManager.getModel(ModelManager.GAME_DATA) as GameDataModel;
-            var screenId:String = NavigationManager[_gameDataModel.firstScreen];
-            _gameManager.navigator.addScreen(screenId, new ScreenNavigatorItem(NavigationManager[_gameDataModel.firstScreen + "_CLASS"], null, {"gameManager":_gameManager}));
-            _gameManager.navigator.showScreen(screenId);
+            _mvcViewLayouts = _gameManager.modelManager.getModel(ModelManager.MVC_VIEWS) as ModelManager.MVC_VIEWS_CLASS;
+
+            addScreenByViewId(_gameDataModel.firstScreen);
+            _gameManager.navigator.showScreen(_gameDataModel.firstScreen);
+        }
+
+        private function addScreenByViewId(viewId:String):void
+        {
+            var firstViewLayout:MVCViewLayout = _mvcViewLayouts.getViewLayoutById(viewId);
+            addScreenByMVCViewLayout(firstViewLayout);
+        }
+
+        private function addScreenByMVCViewLayout(mvcViewLayout:MVCViewLayout):void
+        {
+            _gameManager.navigator.addScreen(mvcViewLayout.viewId, new ScreenNavigatorItem(ViewClassLookUp[mvcViewLayout.viewId], null, {"gameManager":_gameManager}));
         }
 
         public function get screenNavigator():ScreenNavigator

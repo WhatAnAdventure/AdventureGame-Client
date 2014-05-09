@@ -6,6 +6,7 @@ package com.whatanadventure.adventuregame.mvc.views
     import com.whatanadventure.adventuregame.config.GameConfig;
     import com.whatanadventure.adventuregame.embedded.LoadingBG;
     import com.whatanadventure.adventuregame.managers.GameManager;
+    import com.whatanadventure.framework.mvc.layout.MVCViewLayout;
     import com.whatanadventure.framework.mvc.IMVCView;
     import com.whatanadventure.framework.mvc.MVCView;
 
@@ -150,6 +151,12 @@ package com.whatanadventure.adventuregame.mvc.views
                 if (GameConfig.screenOrientation == GameConfig.SCREEN_ORIENTATIONS.landscape)
                     (_playButton.layoutData as AnchorLayoutData).verticalCenter *= -1;
             }
+        }
+
+        public function get mvcViewLayout():MVCViewLayout
+        {
+            //special case, none needed
+            return null;
         }
     }
 }
