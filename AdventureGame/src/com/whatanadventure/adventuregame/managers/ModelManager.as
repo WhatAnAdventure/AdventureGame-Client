@@ -4,7 +4,6 @@
 package com.whatanadventure.adventuregame.managers
 {
     import com.whatanadventure.adventuregame.mvc.models.GameDataModel;
-    import com.whatanadventure.framework.mvc.models.MVCViewLayouts;
     import com.whatanadventure.framework.data.IJsonObject;
     import com.whatanadventure.framework.managers.BaseModelManager;
     import com.whatanadventure.framework.managers.IModelManager;
@@ -15,10 +14,8 @@ package com.whatanadventure.adventuregame.managers
         private var _gameManager:GameManager;
 
         public static const GAME_DATA:String = "gameData";
-        public static const MVC_VIEWS:String = "mvcViews";
 
         public static const GAME_DATA_CLASS:Class = GameDataModel;
-        public static const MVC_VIEWS_CLASS:Class = MVCViewLayouts;
 
         public function ModelManager(gameManager:GameManager)
         {
