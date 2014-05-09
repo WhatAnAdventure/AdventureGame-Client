@@ -3,6 +3,7 @@
  */
 package com.whatanadventure.adventuregame.managers
 {
+    import com.whatanadventure.framework.managers.BaseModelManager;
     import com.whatanadventure.framework.mvc.layout.MVCViewLayout;
     import com.whatanadventure.adventuregame.mvc.models.GameDataModel;
     import com.whatanadventure.framework.mvc.models.MVCViewLayouts;
@@ -44,7 +45,7 @@ package com.whatanadventure.adventuregame.managers
         private function onLoadingScreenComplete(event:Event):void
         {
             _gameDataModel = _gameManager.modelManager.getModel(ModelManager.GAME_DATA) as GameDataModel;
-            _mvcViewLayouts = _gameManager.modelManager.getModel(ModelManager.MVC_VIEWS) as ModelManager.MVC_VIEWS_CLASS;
+            _mvcViewLayouts = _gameManager.modelManager.getModel(BaseModelManager.MVC_VIEWS) as BaseModelManager.MVC_VIEWS_CLASS;
 
             addScreenByViewId(_gameDataModel.firstScreen);
             _gameManager.navigator.showScreen(_gameDataModel.firstScreen);

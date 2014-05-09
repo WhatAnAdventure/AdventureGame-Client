@@ -32,9 +32,19 @@ package com.whatanadventure.adventuregame.managers
         public function makeModelFromData(fileData:Object):void
         {
             var modelClass:Class = ModelManager[fileData.modelManagerKey + "_CLASS"] as Class;
-            var addedModel:MVCModel = addModel(new modelClass(_gameManager, ModelManager[fileData.modelManagerKey]));
-            addedModel.setProperties(fileData.properties);
-            (addedModel as IJsonObject).fromJSON(fileData);
+            if (modelClass)
+            {
+                var addedModel:MVCModel = addModel(new modelClass(_gameManager, ModelManager[fileData.modelManagerKey]));
+                addedModel.setProperties(fileData.properties);
+                (addedModel as IJsonObject).fromJSON(fileData);
+            }
+            else
+            {
+                modelClass = BaseModelManager[fileData.modelManagerKey + "_CLASS"] as Class;
+                var addedModel:MVCModel = addModel(new modelClass(_gameManager, BaseModelManager[fileData.modelManagerKey]));
+                addedModel.setProperties(fileData.properties);
+                (addedModel as IJsonObject).fromJSON(fileData);
+            }
         }
     }
 }
