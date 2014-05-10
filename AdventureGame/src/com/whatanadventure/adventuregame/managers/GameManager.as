@@ -26,7 +26,7 @@ package com.whatanadventure.adventuregame.managers
 
             _modelManager = new ModelManager(this);
 
-            _resourceManager = new ResourceManager(this);
+            _resourceManager = new ResourceManager(_modelManager as ModelManager);
             _resourceManager.addEventListener(Event.COMPLETE, onResourceManagerComplete);
 
             _navigator = new ScreenNavigator();

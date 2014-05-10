@@ -10,13 +10,9 @@ package com.whatanadventure.adventuregame.managers
 
     public class ResourceManager extends BaseResourceManager
     {
-        protected var _gameManager:GameManager;
-
-        public function ResourceManager(gameManager:GameManager)
+        public function ResourceManager(modelManager:ModelManager)
         {
-            super();
-
-            _gameManager = gameManager;
+            super(modelManager);
 
             addDataFetchers();
         }
@@ -27,10 +23,10 @@ package com.whatanadventure.adventuregame.managers
             {
                 case GameConfig.PLATFORMS.Mobile:
                 case GameConfig.PLATFORMS.Emulator:
-                    addDataFetcher(new ProjectFileDataFetcher(_gameManager, "/data/ContentDataManifest.json"));
+                    addDataFetcher(new ProjectFileDataFetcher(this, "/data/ContentDataManifest.json"));
                     break;
                 case GameConfig.PLATFORMS.Desktop:
-                    addDataFetcher(new LocalDataFetcher(_gameManager));
+                    addDataFetcher(new LocalDataFetcher(this));
                     break;
             }
         }
