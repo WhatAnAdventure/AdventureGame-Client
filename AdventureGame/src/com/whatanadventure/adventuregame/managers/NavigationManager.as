@@ -10,6 +10,7 @@ package com.whatanadventure.adventuregame.managers
     import com.whatanadventure.adventuregame.mvc.models.MVCLayouts;
     import com.whatanadventure.adventuregame.mvc.views.LoadingScreen;
     import com.whatanadventure.adventuregame.mvc.MVCClassLookUp;
+    import com.whatanadventure.framework.mvc.view.MVCScreen;
 
     import feathers.controls.Screen;
 
@@ -54,17 +55,26 @@ package com.whatanadventure.adventuregame.managers
             _gameManager.navigator.showScreen(_gameDataModel.firstScreen);
         }
 
-        private function addScreenByViewId(viewId:String):void
+        private function addScreenByViewId(viewId:String, isNested:Boolean = false):void
         {
             var firstLayout:MVCLayout = _mvcLayouts.getLayoutByViewId(viewId);
-            addScreenByMVCLayout(firstLayout);
+            addScreenByMVCLayout(firstLayout, isNested);
         }
 
-        private function addScreenByMVCLayout(mvcLayout:MVCLayout):void
+        private function addScreenByMVCLayout(mvcLayout:MVCLayout, isNested:Boolean = false):void
         {
-            var controllerClass:Class = MVCClassLookUp[mvcLayout.viewId].controller;
+            var controllerClass:Class = (MVCClassLookUp[mvcLayout.mvcType] && MVCClassLookUp[mvcLayout.mvcType].hasOwnProperty("controller")) ? MVCClassLookUp[mvcLayout.mvcType].controller : MVCController;
             var controller:MVCController = new controllerClass();
-            _gameManager.navigator.addScreen(mvcLayout.viewId, new ScreenNavigatorItem(MVCClassLookUp[mvcLayout.viewId].view, null, {"gameManager":_gameManager, "mvcLayout":mvcLayout, "controller":controller}));
+            var viewClass:Class = (MVCClassLookUp[mvcLayout.mvcType] && MVCClassLookUp[mvcLayout.mvcType].hasOwnProperty("view")) ? MVCClassLookUp[mvcLayout.mvcType].view : MVCScreen;
+            _gameManager.navigator.addScreen(mvcLayout.viewId, new ScreenNavigatorItem(viewClass, mvcLayout.navigations, {"gameManager":_gameManager, "mvcLayout":mvcLayout, "controller":controller}));
+
+            if (!isNested)
+            {
+                for each (var viewId:String in mvcLayout.navigations)
+                {
+                    addScreenByViewId(viewId, true);
+                }
+            }
         }
 
         public function get screenNavigator():ScreenNavigator

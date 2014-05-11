@@ -25,10 +25,8 @@ package com.whatanadventure.adventuregame.mvc.layouts
     import starling.events.Event;
     import starling.utils.Color;
 
-    public class CenterButtonGroupLayout extends MVCLayout implements ILayout, IJsonObject
+    public class CenterButtonGroupLayout extends MVCLayout implements ILayout
     {
-        protected var _view:FeathersControl;
-
         private var _bg:DisplayObject;
         private var _header:Header;
         private var _buttonGroup:ButtonGroup;
@@ -102,24 +100,15 @@ package com.whatanadventure.adventuregame.mvc.layouts
                 }
             }
 
-            (_view as IMVCView).controller[functionName](event);
-//            _view[functionName](event);
+            if ((_view as IMVCView).controller.hasOwnProperty(functionName))
+                (_view as IMVCView).controller[functionName](event);
+            if (_view.hasOwnProperty(functionName))
+                _view[functionName](event);
         }
 
-        public function toJSON():Object
+        public function get layoutDataClass():Class
         {
-            return null;
-        }
-
-        public function fromJSON(jsonData:Object):void
-        {
-            _layoutClass = jsonData.layoutClass;
-            _viewId = jsonData.viewId;
-
-            var layoutDataClass:Class = LayoutClassLookUp[layoutClass].layoutData;
-            var mvcViewLayoutData:MVCLayoutData = new layoutDataClass(_viewId) as MVCLayoutData;
-            (mvcViewLayoutData as IJsonObject).fromJSON(jsonData.layoutData);
-            _mvcLayoutData = mvcViewLayoutData;
+            return LayoutClassLookUp[layoutType].layoutData;
         }
     }
 }

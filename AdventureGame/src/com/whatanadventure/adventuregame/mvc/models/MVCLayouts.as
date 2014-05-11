@@ -3,11 +3,10 @@
  */
 package com.whatanadventure.adventuregame.mvc.models
 {
-    import com.whatanadventure.adventuregame.mvc.MVCClassLookUp;
+    import com.whatanadventure.adventuregame.mvc.LayoutClassLookUp;
     import com.whatanadventure.framework.data.IJsonObject;
     import com.whatanadventure.framework.mvc.IMVCModel;
     import com.whatanadventure.framework.mvc.MVCModel;
-    import com.whatanadventure.adventuregame.mvc.LayoutClassLookUp;
     import com.whatanadventure.framework.mvc.layout.MVCLayout;
 
     public class MVCLayouts extends MVCModel implements IMVCModel, IJsonObject
@@ -48,7 +47,7 @@ package com.whatanadventure.adventuregame.mvc.models
             var mvcLayout:MVCLayout;
             for each (var layoutJson:Object in jsonData.layouts)
             {
-                layoutClass = LayoutClassLookUp[layoutJson.layoutClass].layout;
+                layoutClass = LayoutClassLookUp[layoutJson.layoutType].layout;
                 mvcLayout = new layoutClass();
                 (mvcLayout as IJsonObject).fromJSON(layoutJson);
                 _mvcLayouts.push(mvcLayout);
