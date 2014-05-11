@@ -4,11 +4,14 @@
 package com.whatanadventure.adventuregame.managers
 {
     import com.whatanadventure.framework.managers.BaseModelManager;
-    import com.whatanadventure.framework.mvc.layout.MVCViewLayout;
+    import com.whatanadventure.framework.mvc.MVCController;
+    import com.whatanadventure.framework.mvc.layout.MVCLayout;
     import com.whatanadventure.adventuregame.mvc.models.GameDataModel;
-    import com.whatanadventure.framework.mvc.models.MVCViewLayouts;
+    import com.whatanadventure.adventuregame.mvc.models.MVCLayouts;
     import com.whatanadventure.adventuregame.mvc.views.LoadingScreen;
-    import com.whatanadventure.adventuregame.mvc.views.ViewClassLookUp;
+    import com.whatanadventure.adventuregame.mvc.MVCClassLookUp;
+
+    import feathers.controls.Screen;
 
     import feathers.controls.ScreenNavigator;
     import feathers.controls.ScreenNavigatorItem;
@@ -26,7 +29,7 @@ package com.whatanadventure.adventuregame.managers
         private var _screenNavigator:ScreenNavigator;
         private var _transitionManager:ScreenSlidingStackTransitionManager;
         private var _gameDataModel:GameDataModel;
-        private var _mvcViewLayouts:MVCViewLayouts;
+        private var _mvcLayouts:MVCLayouts;
 
         public function NavigationManager(gameManager:GameManager, screenNavigator:ScreenNavigator)
         {
@@ -44,8 +47,8 @@ package com.whatanadventure.adventuregame.managers
 
         private function onLoadingScreenComplete(event:Event):void
         {
-            _gameDataModel = _gameManager.modelManager.getModel(ModelManager.GAME_DATA) as GameDataModel;
-            _mvcViewLayouts = _gameManager.modelManager.getModel(BaseModelManager.MVC_VIEWS) as BaseModelManager.MVC_VIEWS_CLASS;
+            _gameDataModel = _gameManager.modelManager.getModel(ModelManager.GAME_DATA.name) as GameDataModel;
+            _mvcLayouts = _gameManager.modelManager.getModel(ModelManager.MVC_LAYOUTS.name) as MVCLayouts;
 
             addScreenByViewId(_gameDataModel.firstScreen);
             _gameManager.navigator.showScreen(_gameDataModel.firstScreen);
@@ -53,13 +56,15 @@ package com.whatanadventure.adventuregame.managers
 
         private function addScreenByViewId(viewId:String):void
         {
-            var firstViewLayout:MVCViewLayout = _mvcViewLayouts.getViewLayoutById(viewId);
-            addScreenByMVCViewLayout(firstViewLayout);
+            var firstLayout:MVCLayout = _mvcLayouts.getLayoutByViewId(viewId);
+            addScreenByMVCLayout(firstLayout);
         }
 
-        private function addScreenByMVCViewLayout(mvcViewLayout:MVCViewLayout):void
+        private function addScreenByMVCLayout(mvcLayout:MVCLayout):void
         {
-            _gameManager.navigator.addScreen(mvcViewLayout.viewId, new ScreenNavigatorItem(ViewClassLookUp[mvcViewLayout.viewId], null, {"gameManager":_gameManager}));
+            var controllerClass:Class = MVCClassLookUp[mvcLayout.viewId].controller;
+            var controller:MVCController = new controllerClass();
+            _gameManager.navigator.addScreen(mvcLayout.viewId, new ScreenNavigatorItem(MVCClassLookUp[mvcLayout.viewId].view, null, {"gameManager":_gameManager, "mvcLayout":mvcLayout, "controller":controller}));
         }
 
         public function get screenNavigator():ScreenNavigator

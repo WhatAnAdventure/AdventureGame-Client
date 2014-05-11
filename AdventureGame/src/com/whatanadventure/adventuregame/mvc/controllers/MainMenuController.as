@@ -1,15 +1,15 @@
 /**
- * Created by Chelsea on 5/9/2014.
+ * Created by Chelsea on 5/10/2014.
  */
-package com.whatanadventure.adventuregame.mvc.views
+package com.whatanadventure.adventuregame.mvc.controllers
 {
-    import com.whatanadventure.framework.mvc.view.CenterButtonGroupView;
+    import com.whatanadventure.framework.mvc.MVCController;
 
     import starling.events.Event;
 
-    public class MainMenu extends CenterButtonGroupView
+    public class MainMenuController extends MVCController
     {
-        public function MainMenu()
+        public function MainMenuController()
         {
             super();
         }

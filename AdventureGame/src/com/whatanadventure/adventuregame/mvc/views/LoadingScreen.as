@@ -6,7 +6,9 @@ package com.whatanadventure.adventuregame.mvc.views
     import com.whatanadventure.adventuregame.config.GameConfig;
     import com.whatanadventure.adventuregame.embedded.LoadingBG;
     import com.whatanadventure.adventuregame.managers.GameManager;
-    import com.whatanadventure.framework.mvc.layout.MVCViewLayout;
+    import com.whatanadventure.framework.mvc.MVCController;
+    import com.whatanadventure.framework.mvc.layout.ILayout;
+    import com.whatanadventure.framework.mvc.layout.MVCLayout;
     import com.whatanadventure.framework.mvc.IMVCView;
     import com.whatanadventure.framework.mvc.MVCView;
 
@@ -26,6 +28,9 @@ package com.whatanadventure.adventuregame.mvc.views
 
     public class LoadingScreen extends Screen implements IMVCView
     {
+        protected var _gameManager:GameManager;
+        private var _isComplete:Boolean;
+
         protected var _bg:Image;
         protected var _progressBar:ProgressBar;
         protected var _playButton:Button;
@@ -36,9 +41,6 @@ package com.whatanadventure.adventuregame.mvc.views
 
             layout = new AnchorLayout();
         }
-
-        protected var _gameManager:GameManager;
-        private var _isComplete:Boolean;
 
         public function set gameManager(value:GameManager):void
         {
@@ -130,7 +132,7 @@ package com.whatanadventure.adventuregame.mvc.views
             invalidate(MVCView.INVALIDATION_FLAG_ROTATE);
         }
 
-        public function updateLayout():void
+        private function updateLayout():void
         {
             if (_bg && getChildIndex(_bg) != -1)
                 _bg.removeFromParent(true);
@@ -153,10 +155,64 @@ package com.whatanadventure.adventuregame.mvc.views
             }
         }
 
-        public function get mvcViewLayout():MVCViewLayout
+        public function get mvcViewLayout():MVCLayout
         {
             //special case, none needed
             return null;
+        }
+
+        public function get controller():MVCController
+        {
+            //special case, none needed
+            return null;
+        }
+
+        public function onModelChange(event:Event):void
+        {
+            //special case, none needed
+        }
+
+        public function get mvcLayoutData():ILayout
+        {
+            //special case, none needed
+            return null;
+        }
+
+        public function addLayout():void
+        {
+            //special case, none needed
+        }
+
+        public function addController():void
+        {
+            //special case, none needed
+        }
+
+        public function addModels():void
+        {
+            //special case, none needed
+        }
+
+        public function set mvcLayout(value:ILayout):void
+        {
+            //special case, none needed
+        }
+
+        public function get mvcLayout():ILayout
+        {
+            //special case, none needed
+            return null;
+        }
+
+        public function set controller(controller:MVCController):void
+        {
+            //special case, none needed
+        }
+
+        public function get viewId():String
+        {
+            //special case, none needed
+            return "";
         }
     }
 }

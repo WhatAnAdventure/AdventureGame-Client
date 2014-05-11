@@ -13,9 +13,9 @@ package com.whatanadventure.adventuregame.mvc.models
         private var _defaultTheme:String;
         private var _firstScreen:String;
 
-        public function GameDataModel(gameManager:BaseGameManager, modelName:String)
+        public function GameDataModel(modelName:String)
         {
-            super(gameManager, modelName);
+            super(modelName);
         }
 
         public function toJSON():Object
