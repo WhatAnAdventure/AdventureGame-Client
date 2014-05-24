@@ -18,6 +18,8 @@ package {
     import starling.events.Event;
     import starling.events.ResizeEvent;
 
+    import themes.AeonDesktopTheme.source.feathers.themes.AeonDesktopTheme;
+
     import themes.MetalWorksMobileTheme.source.feathers.themes.MetalWorksMobileTheme;
 
     public class MobileGame extends Sprite
@@ -121,7 +123,10 @@ package {
 
         protected function setTheme():void
         {
-            _theme = new MetalWorksMobileTheme(stage);
+            if (GameConfig.getPlatform() == GameConfig.PLATFORMS.Desktop)
+                _theme = new AeonDesktopTheme(stage);
+            else
+                _theme = new MetalWorksMobileTheme(stage);
         }
     }
 }

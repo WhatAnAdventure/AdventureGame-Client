@@ -38,17 +38,18 @@ package com.whatanadventure.adventuregame.managers
 
         public function makeModelFromData(fileData:Object):void
         {
+            var addedModel:MVCModel;
             var modelClass:Class = ModelManager[fileData.modelManagerKey].classReference as Class;
             if (modelClass)
             {
-                var addedModel:MVCModel = addModel(new modelClass(ModelManager[fileData.modelManagerKey].name));
+                addedModel = addModel(new modelClass(ModelManager[fileData.modelManagerKey].name));
                 addedModel.setProperties(fileData.properties);
                 (addedModel as IJsonObject).fromJSON(fileData);
             }
             else
             {
                 modelClass = BaseModelManager[fileData.modelManagerKey + "_CLASS"] as Class;
-                var addedModel:MVCModel = addModel(new modelClass(BaseModelManager[fileData.modelManagerKey]));
+                addedModel = addModel(new modelClass(BaseModelManager[fileData.modelManagerKey]));
                 addedModel.setProperties(fileData.properties);
                 (addedModel as IJsonObject).fromJSON(fileData);
             }
