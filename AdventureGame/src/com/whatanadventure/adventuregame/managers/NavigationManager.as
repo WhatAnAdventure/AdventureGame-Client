@@ -3,19 +3,18 @@
  */
 package com.whatanadventure.adventuregame.managers
 {
-    import com.whatanadventure.framework.managers.BaseModelManager;
-    import com.whatanadventure.framework.mvc.MVCController;
-    import com.whatanadventure.framework.mvc.layout.MVCLayout;
+    import com.whatanadventure.adventuregame.mvc.MVCClassLookUp;
     import com.whatanadventure.adventuregame.mvc.models.GameDataModel;
     import com.whatanadventure.adventuregame.mvc.models.MVCLayouts;
     import com.whatanadventure.adventuregame.mvc.views.LoadingScreen;
-    import com.whatanadventure.adventuregame.mvc.MVCClassLookUp;
+    import com.whatanadventure.framework.mvc.MVCController;
+    import com.whatanadventure.framework.mvc.layout.MVCLayout;
     import com.whatanadventure.framework.mvc.view.MVCScreen;
-
-    import feathers.controls.Screen;
+    import com.whatanadventure.framework.util.ObjectUtil;
 
     import feathers.controls.ScreenNavigator;
     import feathers.controls.ScreenNavigatorItem;
+    import feathers.events.FeathersEventType;
     import feathers.motion.transitions.ScreenSlidingStackTransitionManager;
 
     import starling.events.Event;
@@ -23,6 +22,8 @@ package com.whatanadventure.adventuregame.managers
 
     public class NavigationManager extends EventDispatcher
     {
+        public static const BACK_EVENT:String = "back_event";
+
         private static const LOADING_SCREEN:String = "loadingScreen";
         private static const LOADING_SCREEN_CLASS:Class = LoadingScreen;
 
@@ -31,6 +32,7 @@ package com.whatanadventure.adventuregame.managers
         private var _transitionManager:ScreenSlidingStackTransitionManager;
         private var _gameDataModel:GameDataModel;
         private var _mvcLayouts:MVCLayouts;
+        private var _screenHistory:Vector.<String>;
 
         public function NavigationManager(gameManager:GameManager, screenNavigator:ScreenNavigator)
         {
@@ -38,12 +40,27 @@ package com.whatanadventure.adventuregame.managers
 
             _gameManager = gameManager;
             _screenNavigator = screenNavigator;
+            _screenHistory = new Vector.<String>();
 
             _transitionManager = new ScreenSlidingStackTransitionManager(_screenNavigator);
             _transitionManager.duration = 0.4;
 
             _gameManager.navigator.addScreen(LOADING_SCREEN, new ScreenNavigatorItem(LOADING_SCREEN_CLASS, {"complete":onLoadingScreenComplete}, {"gameManager":_gameManager}));
             _gameManager.navigator.showScreen(LOADING_SCREEN);
+
+            addListeners();
+        }
+
+        private function addListeners():void
+        {
+            _screenNavigator.addEventListener(Event.CHANGE, onScreenChange);
+        }
+
+        private function onScreenChange(event:Event):void
+        {
+            if (_screenHistory.length > 1)
+                _screenHistory.splice(0, 1);
+            _screenHistory.push(_screenNavigator.activeScreenID);
         }
 
         private function onLoadingScreenComplete(event:Event):void
@@ -69,7 +86,11 @@ package com.whatanadventure.adventuregame.managers
             var controllerClass:Class = (MVCClassLookUp[mvcLayout.mvcType] && MVCClassLookUp[mvcLayout.mvcType].hasOwnProperty("controller")) ? MVCClassLookUp[mvcLayout.mvcType].controller : MVCController;
             var controller:MVCController = new controllerClass();
             var viewClass:Class = (MVCClassLookUp[mvcLayout.mvcType] && MVCClassLookUp[mvcLayout.mvcType].hasOwnProperty("view")) ? MVCClassLookUp[mvcLayout.mvcType].view : MVCScreen;
-            _gameManager.navigator.addScreen(mvcLayout.viewId, new ScreenNavigatorItem(viewClass, mvcLayout.navigations, {"gameManager":_gameManager, "mvcLayout":mvcLayout, "controller":controller}));
+
+            var navigations:Object = ObjectUtil.copy(mvcLayout.navigations);
+            navigations[BACK_EVENT] = onBackButton;
+
+            _gameManager.navigator.addScreen(mvcLayout.viewId, new ScreenNavigatorItem(viewClass, navigations, {"gameManager":_gameManager, "mvcLayout":mvcLayout, "controller":controller}));
 
             if (!isNested)
             {
@@ -78,6 +99,24 @@ package com.whatanadventure.adventuregame.managers
                     addScreenByViewId(viewId, true);
                 }
             }
+        }
+
+        private function onBackButton():void
+        {
+                var nextScreenId:String = previousScreenId;
+                if (!_screenNavigator.hasScreen(nextScreenId))
+                    addScreenByViewId(nextScreenId);
+                _screenNavigator.showScreen(nextScreenId);
+        }
+
+        public function get previousScreenId():String
+        {
+            var result:String;
+
+            if (_screenHistory.length >= 2)
+                result = _screenHistory[_screenHistory.length - 2];
+
+            return result;
         }
 
         public function get screenNavigator():ScreenNavigator

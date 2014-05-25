@@ -45,15 +45,6 @@ package com.whatanadventure.adventuregame.mvc.layouts
             _view.addChildAt(_bg, 0);
         }
 
-//        private function addHeader():void
-//        {
-//            _header = new Header();
-//            _header.title = (mvcLayoutData as CenterButtonGroupLayoutData).title;
-//            _header.layoutData = new AnchorLayoutData();
-//            (_header.layoutData as AnchorLayoutData).percentWidth = 100;
-//            _view.addChild(_header);
-//        }
-
         private function addButtonGroup():void
         {
             _buttonGroup = new ButtonGroup();

@@ -9,6 +9,7 @@ package com.whatanadventure.adventuregame.mvc.layouts.layoutDatas
     public class HeaderedLayoutData extends MVCLayoutData implements IJsonObject
     {
         protected var _title:String;
+        protected var _hasBackButton:Boolean;
 
         public function HeaderedLayoutData(modelName:String)
         {
@@ -23,11 +24,17 @@ package com.whatanadventure.adventuregame.mvc.layouts.layoutDatas
         public function fromJSON(jsonData:Object):void
         {
             _title = jsonData.title;
+            _hasBackButton = (jsonData.hasOwnProperty("hasBackButton") && jsonData.hasBackButton == "true");
         }
 
         public function get title():String
         {
             return _title;
+        }
+
+        public function get hasBackButton():Boolean
+        {
+            return _hasBackButton;
         }
     }
 }
