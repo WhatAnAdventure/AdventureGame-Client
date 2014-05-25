@@ -19,7 +19,7 @@ package com.whatanadventure.adventuregame.managers
             "classReference":GameDataModel
         };
 
-        public static const MVC_LAYOUTS:Object = {
+        public static const MVC_VIEWS:Object = {
             "name":"mvcViews",
             "classReference":MVCLayouts
         };

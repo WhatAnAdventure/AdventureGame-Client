@@ -49,7 +49,7 @@ package com.whatanadventure.adventuregame.managers
         private function onLoadingScreenComplete(event:Event):void
         {
             _gameDataModel = _gameManager.modelManager.getModel(ModelManager.GAME_DATA.name) as GameDataModel;
-            _mvcLayouts = _gameManager.modelManager.getModel(ModelManager.MVC_LAYOUTS.name) as MVCLayouts;
+            _mvcLayouts = _gameManager.modelManager.getModel(ModelManager.MVC_VIEWS.name) as MVCLayouts;
 
             addScreenByViewId(_gameDataModel.firstScreen);
             _gameManager.navigator.showScreen(_gameDataModel.firstScreen);
