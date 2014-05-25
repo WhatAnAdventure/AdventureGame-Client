@@ -3,32 +3,25 @@
  */
 package com.whatanadventure.adventuregame.mvc.layouts
 {
-    import com.whatanadventure.adventuregame.mvc.LayoutClassLookUp;
     import com.whatanadventure.adventuregame.mvc.layouts.layoutDatas.CenterButtonGroupLayoutData;
-    import com.whatanadventure.framework.data.IJsonObject;
-    import com.whatanadventure.framework.mvc.layout.*;
     import com.whatanadventure.framework.mvc.IMVCView;
+    import com.whatanadventure.framework.mvc.layout.*;
 
     import feathers.controls.Button;
     import feathers.controls.ButtonGroup;
-    import feathers.controls.Header;
-    import feathers.controls.LayoutGroup;
     import feathers.core.FeathersControl;
     import feathers.data.ListCollection;
-    import feathers.layout.AnchorLayout;
     import feathers.layout.AnchorLayoutData;
 
     import starling.core.Starling;
-
     import starling.display.DisplayObject;
     import starling.display.Quad;
     import starling.events.Event;
     import starling.utils.Color;
 
-    public class CenterButtonGroupLayout extends MVCLayout implements ILayout
+    public class CenterButtonGroupLayout extends HeaderedLayout implements ILayout
     {
         private var _bg:DisplayObject;
-        private var _header:Header;
         private var _buttonGroup:ButtonGroup;
 
         public function CenterButtonGroupLayout()
@@ -36,15 +29,11 @@ package com.whatanadventure.adventuregame.mvc.layouts
             super();
         }
 
-        public function init(view:FeathersControl):void
+        override public function init(view:FeathersControl):void
         {
-            if (view is LayoutGroup)
-                (view as LayoutGroup).layout = new AnchorLayout();
-
-            _view = view;
+            super.init(view);
 
             addBackground();
-            addHeader();
             addButtonGroup();
 
             updateLayout();
@@ -56,14 +45,14 @@ package com.whatanadventure.adventuregame.mvc.layouts
             _view.addChildAt(_bg, 0);
         }
 
-        private function addHeader():void
-        {
-            _header = new Header();
-            _header.title = (mvcLayoutData as CenterButtonGroupLayoutData).title;
-            _header.layoutData = new AnchorLayoutData();
-            (_header.layoutData as AnchorLayoutData).percentWidth = 100;
-            _view.addChild(_header);
-        }
+//        private function addHeader():void
+//        {
+//            _header = new Header();
+//            _header.title = (mvcLayoutData as CenterButtonGroupLayoutData).title;
+//            _header.layoutData = new AnchorLayoutData();
+//            (_header.layoutData as AnchorLayoutData).percentWidth = 100;
+//            _view.addChild(_header);
+//        }
 
         private function addButtonGroup():void
         {
@@ -81,7 +70,7 @@ package com.whatanadventure.adventuregame.mvc.layouts
             _view.addChild(_buttonGroup);
         }
 
-        public function updateLayout():void
+        override public function updateLayout():void
         {
             if (_bg && _view.getChildIndex(_bg) != -1)
                 _bg.removeFromParent(true);
@@ -128,11 +117,6 @@ package com.whatanadventure.adventuregame.mvc.layouts
             }
 
             return result;
-        }
-
-        public function get layoutDataClass():Class
-        {
-            return LayoutClassLookUp[layoutType].layoutData;
         }
     }
 }
