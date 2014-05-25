@@ -57,6 +57,9 @@ package com.whatanadventure.adventuregame.managers
 
         private function addScreenByViewId(viewId:String, isNested:Boolean = false):void
         {
+            if (_screenNavigator.hasScreen(viewId))
+                return; //don't try to add a screen if it already has one
+
             var firstLayout:MVCLayout = _mvcLayouts.getLayoutByViewId(viewId);
             addScreenByMVCLayout(firstLayout, isNested);
         }

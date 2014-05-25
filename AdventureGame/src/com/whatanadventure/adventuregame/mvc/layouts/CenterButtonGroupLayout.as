@@ -100,10 +100,34 @@ package com.whatanadventure.adventuregame.mvc.layouts
                 }
             }
 
-            if ((_view as IMVCView).controller.hasOwnProperty(functionName))
-                (_view as IMVCView).controller[functionName](event);
-            if (_view.hasOwnProperty(functionName))
-                _view[functionName](event);
+            var eventName:String = getButtonEventName((event.target as Button).label);
+            if (eventName != null && eventName != "")
+            {
+                _view.dispatchEventWith(eventName);
+            }
+            else
+            {
+                if ((_view as IMVCView).controller.hasOwnProperty(functionName))
+                    (_view as IMVCView).controller[functionName](event);
+                if (_view.hasOwnProperty(functionName))
+                    _view[functionName](event);
+            }
+        }
+
+        private function getButtonEventName(label:String):String
+        {
+            var result:String;
+
+            for each (var buttonData:Object in (_mvcLayoutData as CenterButtonGroupLayoutData).dataProvider.data)
+            {
+                if (buttonData.label == label && buttonData.hasOwnProperty("event"))
+                {
+                    result = buttonData.event;
+                    break;
+                }
+            }
+
+            return result;
         }
 
         public function get layoutDataClass():Class

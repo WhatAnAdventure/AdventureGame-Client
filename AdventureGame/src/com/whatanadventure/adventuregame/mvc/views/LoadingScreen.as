@@ -150,6 +150,7 @@ package com.whatanadventure.adventuregame.mvc.views
             {
                 (_playButton.layoutData as AnchorLayoutData).horizontalCenter = 0;
                 (_playButton.layoutData as AnchorLayoutData).verticalCenter = Starling.current.stage.stageHeight / 3;
+                (_playButton.layoutData as AnchorLayoutData).percentWidth = (2/3) * 100;
                 if (GameConfig.screenOrientation == GameConfig.SCREEN_ORIENTATIONS.landscape)
                     (_playButton.layoutData as AnchorLayoutData).verticalCenter *= -1;
             }
