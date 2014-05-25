@@ -45,7 +45,7 @@ package com.whatanadventure.adventuregame.mvc.models
 
             var layoutClass:Class;
             var mvcLayout:MVCLayout;
-            for each (var layoutJson:Object in jsonData.layouts)
+            for each (var layoutJson:Object in jsonData.views)
             {
                 layoutClass = LayoutClassLookUp[layoutJson.layoutType].layout;
                 mvcLayout = new layoutClass();
