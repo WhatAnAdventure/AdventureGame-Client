@@ -2,6 +2,7 @@
  * Created by Chelsea on 4/27/2014.
  */
 package {
+    import com.gamua.flox.Flox;
     import com.whatanadventure.adventuregame.config.GameConfig;
     import com.whatanadventure.adventuregame.managers.GameManager;
     import com.whatanadventure.framework.mvc.IMVCView;
@@ -43,6 +44,8 @@ package {
             addChild(_gameManager.navigator);
 
             _gameManager.resourceManager.fetchData();
+
+            Flox.init("J0xU6tmTtXeL5Wgr", "h3DjavXw4DBKAYN3");
         }
 
         private function onResourceManagerComplete(event:Event):void
